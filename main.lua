@@ -15697,57 +15697,68 @@ do
         if not win then return win end
 
         task.defer(function()
-            local mainGui = win.UIElements and win.UIElements.Main
-            if not mainGui then return end
+        local mainGui = win.UIElements and win.UIElements.Main
+        if not mainGui then return end
 
-            local topbar = mainGui.Main:FindFirstChild("Topbar")
-            if topbar then
-                local left = topbar:FindFirstChild("Left")
-                local right = topbar:FindFirstChild("Right")
+        local topbar = mainGui.Main:FindFirstChild("Topbar")
+        if topbar then
+            local left = topbar:FindFirstChild("Left")
+            local right = topbar:FindFirstChild("Right")
 
-                if right then
-                    right.AnchorPoint = Vector2.new(1, 0.5)
-                    right.Position = UDim2.new(1, -6, 0.5, 0)
-                    local listLayout = right:FindFirstChildOfClass("UIListLayout")
-                    if listLayout then listLayout.Padding = UDim.new(0, 2) end
-
-                    for _, btnData in pairs(win.TopBarButtons) do
-                        if btnData.Name == "Close" then btnData.Object.LayoutOrder = 1
-                        elseif btnData.Name == "Minimize" then btnData.Object.LayoutOrder = 2
-                        elseif btnData.Name == "Fullscreen" then btnData.Object.LayoutOrder = 3 end
-                    end
+            -- [เพิ่มส่วนนี้] ปรับกรอบ Left ให้ชิดมุมซ้ายสุดและลบระยะห่างขอบ
+            if left then
+                left.Position = UDim2.new(0, 4, 0, 0) -- ปรับเลข 4 เป็น 0 หากต้องการให้ชิดติดขอบมุมสนิท
+                local leftPadding = left:FindFirstChildOfClass("UIPadding")
+                if leftPadding then
+                    leftPadding.PaddingLeft = UDim.new(0, 0)
                 end
-
-                if left then
-                    left.Position = UDim2.new(0, 0, 0, 0)
-                    
-                    -- [เพิ่มใหม่] สั่งให้กรอบซ้ายชิดมุมสุดและเคลียร์ Padding ซ้าย
-                    left.Position = UDim2.new(0, 2, 0, 0) -- ขยับจากขอบซ้ายเล็กน้อยไม่ให้ติดมุมมนเกินไป (หรือปรับเป็น 0 ได้ถ้าต้องการให้ชิดสุดๆ)
-                    local leftPadding = left:FindFirstChildOfClass("UIPadding")
-                    if leftPadding then
-                        leftPadding.PaddingLeft = UDim.new(0, 0)
-                    end
-
-                    local titleContainer = left:FindFirstChild("Title")
-                    if titleContainer then
-                        local titleLabel = titleContainer:FindFirstChild("Title")
-                        if titleLabel then
-                            titleLabel.Parent = topbar
-                            titleLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-                            titleLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
-                            titleLabel.TextXAlignment = Enum.TextXAlignment.Center
-                            titleLabel.TextSize = 16
-                        end
+                
+                -- ดึงเฟรมไอคอนโลโก้ด้านในให้ชิดซ้าย
+                for _, child in ipairs(left:GetChildren()) do
+                    if child:IsA("Frame") and child.Name ~= "Title" then
+                        child.Position = UDim2.new(0, 0, 0.5, 0)
+                        child.AnchorPoint = Vector2.new(0, 0.5)
                     end
                 end
             end
 
-            local stroke = Instance.new("UIStroke")
-            stroke.Color = Color3.fromRGB(255, 255, 255)
-            stroke.Transparency = 0.88
-            stroke.Thickness = 1
-            stroke.Parent = mainGui.Background
-        end)
+            -- จัดปุ่ม Mac ไว้ขวาบน
+            if right then
+                right.AnchorPoint = Vector2.new(1, 0.5)
+                right.Position = UDim2.new(1, -6, 0.5, 0)
+                local listLayout = right:FindFirstChildOfClass("UIListLayout")
+                if listLayout then listLayout.Padding = UDim.new(0, 2) end
+
+                for _, btnData in pairs(win.TopBarButtons) do
+                    if btnData.Name == "Close" then btnData.Object.LayoutOrder = 1
+                    elseif btnData.Name == "Minimize" then btnData.Object.LayoutOrder = 2
+                    elseif btnData.Name == "Fullscreen" then btnData.Object.LayoutOrder = 3 end
+                end
+            end
+
+            -- จัดชื่อหน้าต่างให้อยู่ตรงกลาง
+            if left then
+                local titleContainer = left:FindFirstChild("Title")
+                if titleContainer then
+                    local titleLabel = titleContainer:FindFirstChild("Title")
+                    if titleLabel then
+                        titleLabel.Parent = topbar
+                        titleLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+                        titleLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+                        titleLabel.TextXAlignment = Enum.TextXAlignment.Center
+                        titleLabel.TextSize = 16
+                    end
+                end
+            end
+        end
+
+        -- เพิ่มขอบเรืองแสงบางๆ รอบหน้าต่าง
+        local stroke = Instance.new("UIStroke")
+        stroke.Color = Color3.fromRGB(255, 255, 255)
+        stroke.Transparency = 0.88
+        stroke.Thickness = 1
+        stroke.Parent = mainGui.Background
+    end)
 
         -- รองรับการใส่ PlusCallback ใน Toggle เพื่อสร้างปุ่ม '+' ด้านหน้าสวิตช์
         local _origTab = win.Tab
