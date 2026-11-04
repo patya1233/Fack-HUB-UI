@@ -15751,6 +15751,7 @@ do
                 end
             end
         end
+     end)
 
         -- รองรับการใส่ PlusCallback ใน Toggle เพื่อสร้างปุ่ม '+' ด้านหน้าสวิตช์
         local _origTab = win.Tab
