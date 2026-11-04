@@ -15717,7 +15717,7 @@ do
                 for _, child in ipairs(left:GetChildren()) do
                     if child:IsA("Frame") and child.Name ~= "Title" then
                         child.AnchorPoint = Vector2.new(0, 0.5)
-                        child.Position = UDim2.new(0, 8, 0.5, 0) -- ปรับเลข 8 ถ้าน้อยหรือมากกว่าที่ต้องการ
+                        child.Position = UDim2.new(0, 30, 0.5, 0) -- ปรับเลข 8 ถ้าน้อยหรือมากกว่าที่ต้องการ
                     end
                 end
             end
