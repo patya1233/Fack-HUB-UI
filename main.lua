@@ -15707,7 +15707,7 @@ do
 
             -- [เพิ่มส่วนนี้] ปรับกรอบ Left ให้ชิดมุมซ้ายสุดและลบระยะห่างขอบ
             if left then
-                left.Position = UDim2.new(0, 4, 0, 0) -- ปรับเลข 4 เป็น 0 หากต้องการให้ชิดติดขอบมุมสนิท
+                left.Position = UDim2.new(0, 0, 0, 0) -- ปรับเลข 4 เป็น 0 หากต้องการให้ชิดติดขอบมุมสนิท
                 local leftPadding = left:FindFirstChildOfClass("UIPadding")
                 if leftPadding then
                     leftPadding.PaddingLeft = UDim.new(0, 0)
