@@ -15720,6 +15720,14 @@ do
 
                 if left then
                     left.Position = UDim2.new(0, 0, 0, 0)
+                    
+                    -- [เพิ่มใหม่] สั่งให้กรอบซ้ายชิดมุมสุดและเคลียร์ Padding ซ้าย
+                    left.Position = UDim2.new(0, 2, 0, 0) -- ขยับจากขอบซ้ายเล็กน้อยไม่ให้ติดมุมมนเกินไป (หรือปรับเป็น 0 ได้ถ้าต้องการให้ชิดสุดๆ)
+                    local leftPadding = left:FindFirstChildOfClass("UIPadding")
+                    if leftPadding then
+                        leftPadding.PaddingLeft = UDim.new(0, 0)
+                    end
+
                     local titleContainer = left:FindFirstChild("Title")
                     if titleContainer then
                         local titleLabel = titleContainer:FindFirstChild("Title")
