@@ -15705,19 +15705,19 @@ do
             local left = topbar:FindFirstChild("Left")
             local right = topbar:FindFirstChild("Right")
 
-            -- [เพิ่มส่วนนี้] ปรับกรอบ Left ให้ชิดมุมซ้ายสุดและลบระยะห่างขอบ
             if left then
-                left.Position = UDim2.new(0, 0, 0, 0) -- ปรับเลข 4 เป็น 0 หากต้องการให้ชิดติดขอบมุมสนิท
+                -- จัดตำแหน่ง Left ให้ชิดซ้ายสุด
+                left.Position = UDim2.new(0, 0, 0, 0)
                 local leftPadding = left:FindFirstChildOfClass("UIPadding")
                 if leftPadding then
                     leftPadding.PaddingLeft = UDim.new(0, 0)
                 end
                 
-                -- ดึงเฟรมไอคอนโลโก้ด้านในให้ชิดซ้าย
+                -- ดึงเฟรมโลโก้ (Frame ตัวแรกใน Left ที่สร้างตอน aw.Icon) ให้ไปอยู่ชิดมุมซ้ายบนตรงจุดสีแดง
                 for _, child in ipairs(left:GetChildren()) do
                     if child:IsA("Frame") and child.Name ~= "Title" then
-                        child.Position = UDim2.new(0, 0, 0.5, 0)
                         child.AnchorPoint = Vector2.new(0, 0.5)
+                        child.Position = UDim2.new(0, 8, 0.5, 0) -- ปรับเลข 8 ถ้าน้อยหรือมากกว่าที่ต้องการ
                     end
                 end
             end
@@ -15751,7 +15751,7 @@ do
                 end
             end
         end
-     end)
+    end)
 
         -- รองรับการใส่ PlusCallback ใน Toggle เพื่อสร้างปุ่ม '+' ด้านหน้าสวิตช์
         local _origTab = win.Tab
