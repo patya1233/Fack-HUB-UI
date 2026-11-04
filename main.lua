@@ -15752,14 +15752,6 @@ do
             end
         end
 
-        -- เพิ่มขอบเรืองแสงบางๆ รอบหน้าต่าง
-        local stroke = Instance.new("UIStroke")
-        stroke.Color = Color3.fromRGB(255, 255, 255)
-        stroke.Transparency = 0.88
-        stroke.Thickness = 1
-        stroke.Parent = mainGui.Background
-    end)
-
         -- รองรับการใส่ PlusCallback ใน Toggle เพื่อสร้างปุ่ม '+' ด้านหน้าสวิตช์
         local _origTab = win.Tab
         function win.Tab(wSelf, tabConfig)
